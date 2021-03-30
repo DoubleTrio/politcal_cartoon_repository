@@ -1,6 +1,5 @@
 library political_cartoon_repository;
 
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/firebase_political_cartoon_repository.dart';
+export 'src/political_cartoon_repository.dart';
+export 'src/models/models.dart';
