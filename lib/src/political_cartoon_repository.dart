@@ -13,5 +13,5 @@ abstract class PoliticalCartoonRepository {
 
   Future<PoliticalCartoonEntity> getPoliticalCartoonById(String id);
 
-  Future<PoliticalCartoonEntity> getLatestPoliticalCartoon();
+  Stream<PoliticalCartoonEntity> getLatestPoliticalCartoon();
 }

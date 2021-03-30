@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:political_cartoon_repository/src/models/models.dart';
 
 class PoliticalCartoonEntity extends Equatable {
   PoliticalCartoonEntity({ required this.id, required this.image, required this.author, required this.date, required this.description});
