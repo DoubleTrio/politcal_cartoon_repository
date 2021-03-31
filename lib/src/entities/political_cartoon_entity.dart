@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:political_cartoon_repository/src/models/models.dart';
 
 class PoliticalCartoonEntity extends Equatable {
   PoliticalCartoonEntity({ required this.id, required this.image, required this.author, required this.date, required this.description});
   final String id;
   final String image;
-  final String date;
+  final Timestamp date;
   final String author;
   final String description;
 
@@ -18,21 +17,11 @@ class PoliticalCartoonEntity extends Equatable {
     return 'PoliticalCartoonEntity { id: $id, image: $image, date: $date, author: $author, description: $description }';
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": this.id,
-      "image": this.image,
-      "date": this.date,
-      "author": this.author,
-      "description": this.description,
-    };
-  }
-
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
     return PoliticalCartoonEntity(
       id: json['id'] as String,
       image: json['image'] as String,
-      date: json['date'] as String,
+      date: json['date'] as Timestamp,
       author: json['author'] as String,
       description: json['description'] as String,
     );
@@ -43,7 +32,7 @@ class PoliticalCartoonEntity extends Equatable {
     return PoliticalCartoonEntity(
       id: snap.id,
       image: data['image'] as String,
-      date: data['date'] as String,
+      date: data['date'] as Timestamp,
       author: data['author'] as String,
       description: data['description'] as String,
     );

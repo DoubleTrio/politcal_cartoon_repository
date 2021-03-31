@@ -3,15 +3,15 @@ import 'dart:async';
 import 'models/models.dart';
 
 abstract class PoliticalCartoonRepository {
-  Future<void> addNewPoliticalCartoon(PoliticalCartoonEntity cartoon);
+  Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon);
 
-  Future<void> deletePoliticalCartoon(PoliticalCartoonEntity cartoon);
+  Future<void> deletePoliticalCartoon(PoliticalCartoon cartoon);
 
-  Stream<List<PoliticalCartoonEntity>> politicalCartoons();
+  Stream<List<PoliticalCartoon>> politicalCartoons();
 
-  Future<void> updatePoliticalCartoon(PoliticalCartoonEntity cartoon);
+  Future<void> updatePoliticalCartoon(PoliticalCartoon cartoon);
 
-  Future<PoliticalCartoonEntity> getPoliticalCartoonById(String id);
+  Future<PoliticalCartoon> getPoliticalCartoonById(String id);
 
-  Stream<PoliticalCartoonEntity> getLatestPoliticalCartoon();
+  Stream<PoliticalCartoon> getLatestPoliticalCartoon();
 }

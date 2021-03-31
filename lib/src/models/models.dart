@@ -1,1 +1,1 @@
-export 'political_cartoon_entity.dart';
+export 'political_cartoon.dart';
