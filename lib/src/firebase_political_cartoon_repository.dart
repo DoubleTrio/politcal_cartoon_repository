@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'political_cartoon_repository.dart';
-import 'models/models.dart';
+
 import 'entities/entities.dart';
+import 'models/models.dart';
+import 'political_cartoon_repository.dart';
 
 class FirebasePoliticalCartoonRepository implements PoliticalCartoonRepository {
-  CollectionReference cartoonCollection = FirebaseFirestore.instance.collection('cartoons');
+  CollectionReference cartoonCollection =
+      FirebaseFirestore.instance.collection('cartoons');
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
@@ -15,10 +17,11 @@ class FirebasePoliticalCartoonRepository implements PoliticalCartoonRepository {
 
   @override
   Stream<List<PoliticalCartoon>> politicalCartoons() {
-  return cartoonCollection.snapshots().map((snapshot) {
-    return snapshot.docs
-      .map((doc) => PoliticalCartoon.fromEntity(PoliticalCartoonEntity.fromSnapshot(doc)))
-      .toList();
+    return cartoonCollection.limit(10).snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => PoliticalCartoon.fromEntity(
+              PoliticalCartoonEntity.fromSnapshot(doc)))
+          .toList();
     });
   }
 
@@ -30,27 +33,28 @@ class FirebasePoliticalCartoonRepository implements PoliticalCartoonRepository {
   @override
   Future<void> updatePoliticalCartoon(PoliticalCartoon updatedCartoon) {
     return cartoonCollection.firestore
-      .doc(updatedCartoon.id)
-      .update(updatedCartoon.toEntity().toDocument());
+        .doc(updatedCartoon.id)
+        .update(updatedCartoon.toEntity().toDocument());
   }
 
   @override
   Future<PoliticalCartoon> getPoliticalCartoonById(String id) {
-    return cartoonCollection
-      .doc(id)
-      .get()
-      .then((value) => PoliticalCartoon.fromEntity(PoliticalCartoonEntity.fromSnapshot(value)));
+    return cartoonCollection.doc(id).get().then((value) =>
+        PoliticalCartoon.fromEntity(
+            PoliticalCartoonEntity.fromSnapshot(value)));
   }
-  
+
   @override
   Stream<PoliticalCartoon> getLatestPoliticalCartoon() {
-    return cartoonCollection.orderBy('date', descending: true).snapshots().map((snapshot) {
+    return cartoonCollection
+        .orderBy('date', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs
-        .map((doc) => PoliticalCartoon.fromEntity(PoliticalCartoonEntity.fromSnapshot(doc)))
-        .toList().first;
+          .map((doc) => PoliticalCartoon.fromEntity(
+              PoliticalCartoonEntity.fromSnapshot(doc)))
+          .toList()
+          .first;
     });
   }
 }
-
-
-    

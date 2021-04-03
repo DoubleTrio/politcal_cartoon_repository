@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class MockPoliticalCartoonEntity extends Mock implements PoliticalCartoonEntity {}
-
+class MockPoliticalCartoonEntity extends Mock
+    implements PoliticalCartoonEntity {}
 
 void main() {
   late PoliticalCartoon politicalCartoon;
@@ -16,15 +15,23 @@ void main() {
 
   group('Political Cartoon', () {
     setUpAll(() {
-      politicalCartoon = PoliticalCartoon(id: id, image: image, author: author, description: description);
+      politicalCartoon = PoliticalCartoon(
+          id: id,
+          image: image,
+          author: author,
+          description: description,
+          unitId: UnitId.unit1);
     });
 
-    test('date stays the same while converting political cartoon to entity', () {
+    test('date stays the same while converting political cartoon to entity',
+        () {
       var entity = politicalCartoon.toEntity();
       expect(entity.date, politicalCartoon.date);
     });
 
-    test('conversion from political cartoon model to entity and entity to model works', () {
+    test(
+        'conversion from political cartoon model to entity and entity to model works',
+        () {
       var cartoon = PoliticalCartoon.fromEntity(politicalCartoon.toEntity());
       expect(cartoon, politicalCartoon);
     });
@@ -37,7 +44,8 @@ void main() {
         'author': author,
         'description': description,
       };
-      expect(PoliticalCartoonEntity.fromJson(data), equals(politicalCartoon.toEntity()));
+      expect(PoliticalCartoonEntity.fromJson(data),
+          equals(politicalCartoon.toEntity()));
     });
 
     test('fromSnapshot works as intended', () {
@@ -45,4 +53,3 @@ void main() {
     });
   });
 }
-
