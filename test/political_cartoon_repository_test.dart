@@ -12,6 +12,7 @@ void main() {
   String image = 'url-image';
   String author = 'Bob';
   String description = 'A very good description';
+  UnitId unitId = UnitId.unit1;
 
   group('Political Cartoon', () {
     setUpAll(() {
@@ -43,13 +44,12 @@ void main() {
         'date': politicalCartoon.date,
         'author': author,
         'description': description,
+        'unitId': unitId.index
       };
       expect(PoliticalCartoonEntity.fromJson(data),
           equals(politicalCartoon.toEntity()));
     });
 
-    test('fromSnapshot works as intended', () {
-      // TODO implement fromSnapshot
-    });
+    test('fromSnapshot works as intended', () async {});
   });
 }
