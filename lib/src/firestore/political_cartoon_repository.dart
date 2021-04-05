@@ -14,6 +14,4 @@ abstract class PoliticalCartoonRepository {
   Future<PoliticalCartoon> getPoliticalCartoonById(String id);
 
   Stream<PoliticalCartoon> getLatestPoliticalCartoon();
-
-  Future<String> getImageUrl(String uri);
 }

@@ -9,7 +9,7 @@ void main() {
   late PoliticalCartoon politicalCartoon;
 
   String id = '1';
-  String image = 'url-image';
+  String downloadUrl = 'downloadUrl';
   String author = 'Bob';
   String description = 'A very good description';
   UnitId unitId = UnitId.unit1;
@@ -18,10 +18,10 @@ void main() {
     setUpAll(() {
       politicalCartoon = PoliticalCartoon(
           id: id,
-          image: image,
           author: author,
           description: description,
-          unitId: UnitId.unit1);
+          unitId: UnitId.unit1,
+          downloadUrl: downloadUrl);
     });
 
     test('date stays the same while converting political cartoon to entity',
@@ -40,11 +40,11 @@ void main() {
     test('fromJson method works as intended', () {
       Map<String, Object> data = {
         'id': id,
-        'image': image,
         'date': politicalCartoon.date,
         'author': author,
         'description': description,
-        'unitId': unitId.index
+        'unitId': unitId.index,
+        'downloadUrl': downloadUrl,
       };
       expect(PoliticalCartoonEntity.fromJson(data),
           equals(politicalCartoon.toEntity()));

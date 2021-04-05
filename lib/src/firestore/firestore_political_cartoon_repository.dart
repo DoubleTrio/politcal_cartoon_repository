@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 import 'entities/entities.dart';
 import 'models/models.dart';
 import 'political_cartoon_repository.dart';
 
-class FirebasePoliticalCartoonRepository implements PoliticalCartoonRepository {
+class FirestorePoliticalCartoonRepository
+    implements PoliticalCartoonRepository {
   CollectionReference cartoonCollection =
       FirebaseFirestore.instance.collection('cartoons');
-  Reference storageRef = FirebaseStorage.instance.ref();
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
@@ -59,10 +58,5 @@ class FirebasePoliticalCartoonRepository implements PoliticalCartoonRepository {
           .toList()
           .first;
     });
-  }
-
-  @override
-  Future<String> getImageUrl(String path) {
-    return storageRef.child(path).getDownloadURL();
   }
 }
