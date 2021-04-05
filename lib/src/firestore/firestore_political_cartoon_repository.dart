@@ -8,17 +8,21 @@ import 'political_cartoon_repository.dart';
 
 class FirestorePoliticalCartoonRepository
     implements PoliticalCartoonRepository {
-  CollectionReference cartoonCollection =
-      FirebaseFirestore.instance.collection('cartoons');
+  FirestorePoliticalCartoonRepository(
+      {CollectionReference? collectionReference})
+      : _collectionReference = collectionReference ??
+            FirebaseFirestore.instance.collection('cartoons');
+
+  final CollectionReference _collectionReference;
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
-    return cartoonCollection.add(cartoon.toEntity().toDocument());
+    return _collectionReference.add(cartoon.toEntity().toDocument());
   }
 
   @override
   Stream<List<PoliticalCartoon>> politicalCartoons() {
-    return cartoonCollection.limit(10).snapshots().map((snapshot) {
+    return _collectionReference.limit(10).snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) => PoliticalCartoon.fromEntity(
               PoliticalCartoonEntity.fromSnapshot(doc)))
@@ -28,26 +32,26 @@ class FirestorePoliticalCartoonRepository
 
   @override
   Future<void> deletePoliticalCartoon(PoliticalCartoon cartoon) {
-    return cartoonCollection.firestore.doc(cartoon.id).delete();
+    return _collectionReference.firestore.doc(cartoon.id).delete();
   }
 
   @override
   Future<void> updatePoliticalCartoon(PoliticalCartoon updatedCartoon) {
-    return cartoonCollection.firestore
+    return _collectionReference.firestore
         .doc(updatedCartoon.id)
         .update(updatedCartoon.toEntity().toDocument());
   }
 
   @override
   Future<PoliticalCartoon> getPoliticalCartoonById(String id) {
-    return cartoonCollection.doc(id).get().then((value) =>
+    return _collectionReference.doc(id).get().then((value) =>
         PoliticalCartoon.fromEntity(
             PoliticalCartoonEntity.fromSnapshot(value)));
   }
 
   @override
   Stream<PoliticalCartoon> getLatestPoliticalCartoon() {
-    return cartoonCollection
+    return _collectionReference
         .orderBy('date', descending: true)
         .limit(1)
         .snapshots()
