@@ -13,7 +13,9 @@ class PoliticalCartoon extends Equatable {
     required this.unitId,
     required this.downloadUrl,
   })   : this.date = date ?? Timestamp.now(),
-        this.unitName = PoliticalCartoon.getUnitName(unitId);
+        this.unitName = PoliticalCartoon.getUnitName(unitId),
+        this.dateString =
+            date?.toDate().toString() ?? Timestamp.now().toDate().toString();
 
   final String id;
   final Timestamp date;
@@ -22,14 +24,23 @@ class PoliticalCartoon extends Equatable {
   final UnitId unitId;
   final String unitName;
   final String downloadUrl;
+  final String dateString;
 
   @override
-  List<Object?> get props =>
-      [id, date, author, description, unitId, unitName, downloadUrl];
+  List<Object?> get props => [
+        id,
+        date,
+        author,
+        description,
+        unitId,
+        unitName,
+        downloadUrl,
+        dateString
+      ];
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, unitName $unitName, downloadUrl $downloadUrl }';
+    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, unitName: $unitName, downloadUrl: $downloadUrl, dateString: $dateString }';
   }
 
   PoliticalCartoonEntity toEntity() {
