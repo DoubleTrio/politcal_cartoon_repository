@@ -15,7 +15,7 @@ class PoliticalCartoon extends Equatable {
     required this.downloadUrl,
   })   : this.date = date ?? Timestamp.now(),
         this.unitName = PoliticalCartoon.getUnitName(unitId),
-        this.dateString = DateFormat('MM-dd-yyyy')
+        this.dateString = DateFormat('MM-dd-yyyy hh:mm a')
             .format(date?.toDate() ?? Timestamp.now().toDate());
 
   final String id;
