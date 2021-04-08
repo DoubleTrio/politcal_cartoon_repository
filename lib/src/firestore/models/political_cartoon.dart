@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:political_cartoon_repository/src/firestore/entities/entities.dart';
 
 import 'models.dart';
@@ -14,8 +15,8 @@ class PoliticalCartoon extends Equatable {
     required this.downloadUrl,
   })   : this.date = date ?? Timestamp.now(),
         this.unitName = PoliticalCartoon.getUnitName(unitId),
-        this.dateString =
-            date?.toDate().toString() ?? Timestamp.now().toDate().toString();
+        this.dateString = DateFormat('MM-dd-yyyy')
+            .format(date?.toDate() ?? Timestamp.now().toDate());
 
   final String id;
   final Timestamp date;
