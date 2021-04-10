@@ -25,7 +25,6 @@ class FirestorePoliticalCartoonRepository
 
   @override
   Stream<List<PoliticalCartoon>> politicalCartoons() {
-    print(_timeConverter);
     return _collectionReference.limit(10).snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) => PoliticalCartoon.fromEntity(

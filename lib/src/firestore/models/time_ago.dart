@@ -15,7 +15,6 @@ class DefaultTimeAgo implements TimeConverter {
   final String locale;
 
   String timeAgoSinceDate(Timestamp timestamp, {bool numericDates = true}) {
-    print('this us called');
     DateTime notificationDate = timestamp.toDate();
     final date2 = DateTime.now();
     final difference = date2.difference(notificationDate);
