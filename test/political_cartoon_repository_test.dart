@@ -33,7 +33,8 @@ void main() {
     test(
         'conversion from political cartoon model to entity and entity to model works',
         () {
-      var cartoon = PoliticalCartoon.fromEntity(politicalCartoon.toEntity());
+      var cartoon = PoliticalCartoon.fromEntity(
+          politicalCartoon.toEntity(), DefaultTimeAgo());
       expect(cartoon, politicalCartoon);
     });
 

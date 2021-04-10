@@ -1,22 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import 'package:political_cartoon_repository/src/firestore/entities/entities.dart';
+import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 
 import 'models.dart';
 
 class PoliticalCartoon extends Equatable {
-  PoliticalCartoon({
-    required this.id,
-    Timestamp? date,
-    required this.author,
-    required this.description,
-    required this.unitId,
-    required this.downloadUrl,
-  })   : this.date = date ?? Timestamp.now(),
+  PoliticalCartoon(
+      {required this.id,
+      Timestamp? date,
+      required this.author,
+      required this.description,
+      required this.unitId,
+      required this.downloadUrl,
+      TimeConverter timeConverter = const DefaultTimeAgo()})
+      : this.timeConverter = timeConverter,
+        this.date = date ?? Timestamp.now(),
         this.unitName = PoliticalCartoon.getUnitName(unitId),
-        this.dateString = DateFormat('MM-dd-yyyy hh:mm a')
-            .format(date?.toDate() ?? Timestamp.now().toDate());
+        this.dateString =
+            timeConverter.timeAgoSinceDate(date ?? Timestamp.now());
 
   final String id;
   final Timestamp date;
@@ -26,6 +28,7 @@ class PoliticalCartoon extends Equatable {
   final String unitName;
   final String downloadUrl;
   final String dateString;
+  final TimeConverter timeConverter;
 
   @override
   List<Object?> get props => [
@@ -72,13 +75,16 @@ class PoliticalCartoon extends Equatable {
     return map[id] ?? 'Unit does not exist';
   }
 
-  static PoliticalCartoon fromEntity(PoliticalCartoonEntity entity) {
+  static PoliticalCartoon fromEntity(
+      PoliticalCartoonEntity entity, TimeConverter timeConverter) {
     return PoliticalCartoon(
-        id: entity.id,
-        date: entity.date,
-        author: entity.author,
-        description: entity.description,
-        unitId: entity.unitId,
-        downloadUrl: entity.downloadUrl);
+      id: entity.id,
+      date: entity.date,
+      author: entity.author,
+      description: entity.description,
+      unitId: entity.unitId,
+      downloadUrl: entity.downloadUrl,
+      timeConverter: timeConverter,
+    );
   }
 }

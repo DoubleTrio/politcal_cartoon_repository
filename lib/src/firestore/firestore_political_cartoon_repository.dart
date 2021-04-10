@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 
 import 'entities/entities.dart';
 import 'models/models.dart';
@@ -9,11 +10,13 @@ import 'political_cartoon_repository.dart';
 class FirestorePoliticalCartoonRepository
     implements PoliticalCartoonRepository {
   FirestorePoliticalCartoonRepository(
-      {CollectionReference? collectionReference})
+      {CollectionReference? collectionReference, TimeConverter? timeConverter})
       : _collectionReference = collectionReference ??
-            FirebaseFirestore.instance.collection('cartoons');
+            FirebaseFirestore.instance.collection('cartoons'),
+        _timeConverter = timeConverter ?? DefaultTimeAgo();
 
   final CollectionReference _collectionReference;
+  final TimeConverter _timeConverter;
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
@@ -22,10 +25,11 @@ class FirestorePoliticalCartoonRepository
 
   @override
   Stream<List<PoliticalCartoon>> politicalCartoons() {
+    print(_timeConverter);
     return _collectionReference.limit(10).snapshots().map((snapshot) {
       return snapshot.docs
           .map((doc) => PoliticalCartoon.fromEntity(
-              PoliticalCartoonEntity.fromSnapshot(doc)))
+              PoliticalCartoonEntity.fromSnapshot(doc), _timeConverter))
           .toList();
     });
   }
@@ -46,7 +50,7 @@ class FirestorePoliticalCartoonRepository
   Future<PoliticalCartoon> getPoliticalCartoonById(String id) {
     return _collectionReference.doc(id).get().then((value) =>
         PoliticalCartoon.fromEntity(
-            PoliticalCartoonEntity.fromSnapshot(value)));
+            PoliticalCartoonEntity.fromSnapshot(value), _timeConverter));
   }
 
   @override
@@ -58,7 +62,7 @@ class FirestorePoliticalCartoonRepository
         .map((snapshot) {
       return snapshot.docs
           .map((doc) => PoliticalCartoon.fromEntity(
-              PoliticalCartoonEntity.fromSnapshot(doc)))
+              PoliticalCartoonEntity.fromSnapshot(doc), _timeConverter))
           .toList()
           .first;
     });
