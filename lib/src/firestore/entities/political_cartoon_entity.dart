@@ -9,21 +9,24 @@ class PoliticalCartoonEntity extends Equatable {
       required this.date,
       required this.description,
       required this.unitId,
-      required this.downloadUrl});
+      required this.downloadUrl,
+      required this.published});
+
   final String id;
   final Timestamp date;
   final String author;
   final String description;
   final UnitId unitId;
   final String downloadUrl;
+  final Timestamp published;
 
   @override
   List<Object?> get props =>
-      [id, date, author, description, unitId, downloadUrl];
+      [id, date, author, description, unitId, downloadUrl, published];
 
   @override
   String toString() {
-    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, downLoadUrl: $downloadUrl }';
+    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, downLoadUrl: $downloadUrl, published: $published }';
   }
 
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
@@ -34,6 +37,7 @@ class PoliticalCartoonEntity extends Equatable {
       description: json['description'] as String,
       unitId: UnitId.values[json['unitId'] as int],
       downloadUrl: json['downloadUrl'] as String,
+      published: json['published'] as Timestamp,
     );
   }
 
@@ -45,7 +49,8 @@ class PoliticalCartoonEntity extends Equatable {
         author: data['author'] as String,
         description: data['description'] as String,
         unitId: UnitId.values[data['unitId'] as int],
-        downloadUrl: data['downloadUrl'] as String);
+        downloadUrl: data['downloadUrl'] as String,
+        published: data['published'] as Timestamp);
   }
 
   Map<String, Object?> toDocument() {
@@ -55,6 +60,7 @@ class PoliticalCartoonEntity extends Equatable {
       'description': description,
       'unitId': unitId.index,
       'downloadUrl': downloadUrl,
+      'published': published,
     };
   }
 }

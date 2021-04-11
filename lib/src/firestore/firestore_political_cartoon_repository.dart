@@ -17,6 +17,7 @@ class FirestorePoliticalCartoonRepository
 
   final CollectionReference _collectionReference;
   final TimeConverter _timeConverter;
+  List<DocumentSnapshot> docList = [];
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
@@ -25,11 +26,17 @@ class FirestorePoliticalCartoonRepository
 
   @override
   Stream<List<PoliticalCartoon>> politicalCartoons() {
-    return _collectionReference.limit(10).snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) => PoliticalCartoon.fromEntity(
-              PoliticalCartoonEntity.fromSnapshot(doc), _timeConverter))
-          .toList();
+    return _collectionReference
+        .orderBy('date', descending: true)
+        // .startAfterDocument(docList.length == 0 ? [] : docList.last)
+        .limit(10)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        docList.add(doc);
+        return PoliticalCartoon.fromEntity(
+            PoliticalCartoonEntity.fromSnapshot(doc), _timeConverter);
+      }).toList();
     });
   }
 

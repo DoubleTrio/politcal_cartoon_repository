@@ -1,24 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:political_cartoon_repository/src/firestore/entities/entities.dart';
 import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 
 import 'models.dart';
 
 class PoliticalCartoon extends Equatable {
-  PoliticalCartoon(
-      {required this.id,
-      Timestamp? date,
-      required this.author,
-      required this.description,
-      required this.unitId,
-      required this.downloadUrl,
-      TimeConverter timeConverter = const DefaultTimeAgo()})
-      : this.timeConverter = timeConverter,
+  PoliticalCartoon({
+    String? id,
+    Timestamp? date,
+    TimeConverter timeConverter = const DefaultTimeAgo(),
+    required this.author,
+    required this.description,
+    required this.unitId,
+    required this.downloadUrl,
+    required this.published,
+  })   : this.id = id ?? '',
+        this.timeConverter = timeConverter,
         this.date = date ?? Timestamp.now(),
         this.unitName = PoliticalCartoon.getUnitName(unitId),
         this.dateString =
-            timeConverter.timeAgoSinceDate(date ?? Timestamp.now());
+            timeConverter.timeAgoSinceDate(date ?? Timestamp.now()),
+        this.publishedString = DateFormat("yyyy").format(published.toDate());
 
   final String id;
   final Timestamp date;
@@ -29,6 +33,8 @@ class PoliticalCartoon extends Equatable {
   final String downloadUrl;
   final String dateString;
   final TimeConverter timeConverter;
+  final Timestamp published;
+  final String publishedString;
 
   @override
   List<Object?> get props => [
@@ -39,12 +45,15 @@ class PoliticalCartoon extends Equatable {
         unitId,
         unitName,
         downloadUrl,
-        dateString
+        dateString,
+        timeConverter,
+        published,
+        publishedString
       ];
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, unitName: $unitName, downloadUrl: $downloadUrl, dateString: $dateString }';
+    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, unitName: $unitName, downloadUrl: $downloadUrl, dateString: $dateString, published: $published, publishedSting: $publishedString }';
   }
 
   PoliticalCartoonEntity toEntity() {
@@ -55,6 +64,7 @@ class PoliticalCartoon extends Equatable {
       description: description,
       unitId: unitId,
       downloadUrl: downloadUrl,
+      published: published,
     );
   }
 
@@ -85,6 +95,7 @@ class PoliticalCartoon extends Equatable {
       unitId: entity.unitId,
       downloadUrl: entity.downloadUrl,
       timeConverter: timeConverter,
+      published: entity.published,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -13,15 +14,18 @@ void main() {
   String author = 'Bob';
   String description = 'A very good description';
   UnitId unitId = UnitId.unit1;
+  Timestamp published = Timestamp.now();
 
   group('Political Cartoon', () {
     setUpAll(() {
       politicalCartoon = PoliticalCartoon(
-          id: id,
-          author: author,
-          description: description,
-          unitId: UnitId.unit1,
-          downloadUrl: downloadUrl);
+        id: id,
+        author: author,
+        description: description,
+        unitId: UnitId.unit1,
+        downloadUrl: downloadUrl,
+        published: published,
+      );
     });
 
     test('date stays the same while converting political cartoon to entity',
@@ -46,6 +50,7 @@ void main() {
         'description': description,
         'unitId': unitId.index,
         'downloadUrl': downloadUrl,
+        'published': published
       };
       expect(PoliticalCartoonEntity.fromJson(data),
           equals(politicalCartoon.toEntity()));
