@@ -13,7 +13,7 @@ void main() {
   String downloadUrl = 'downloadUrl';
   String author = 'Bob';
   String description = 'A very good description';
-  UnitId unitId = UnitId.unit1;
+  Unit unit = Unit.unit1;
   Timestamp published = Timestamp.now();
 
   group('Political Cartoon', () {
@@ -22,7 +22,7 @@ void main() {
         id: id,
         author: author,
         description: description,
-        unitId: UnitId.unit1,
+        unit: Unit.unit1,
         downloadUrl: downloadUrl,
         published: published,
       );
@@ -48,7 +48,7 @@ void main() {
         'date': politicalCartoon.date,
         'author': author,
         'description': description,
-        'unitId': unitId.index,
+        'unit': unit.index,
         'downloadUrl': downloadUrl,
         'published': published
       };

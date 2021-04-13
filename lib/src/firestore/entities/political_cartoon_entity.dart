@@ -8,7 +8,7 @@ class PoliticalCartoonEntity extends Equatable {
       required this.author,
       required this.date,
       required this.description,
-      required this.unitId,
+      required this.unit,
       required this.downloadUrl,
       required this.published});
 
@@ -16,17 +16,17 @@ class PoliticalCartoonEntity extends Equatable {
   final Timestamp date;
   final String author;
   final String description;
-  final UnitId unitId;
+  final Unit unit;
   final String downloadUrl;
   final Timestamp published;
 
   @override
   List<Object?> get props =>
-      [id, date, author, description, unitId, downloadUrl, published];
+      [id, date, author, description, unit, downloadUrl, published];
 
   @override
   String toString() {
-    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, unitId: $unitId, downLoadUrl: $downloadUrl, published: $published }';
+    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, Unit: $unit, downLoadUrl: $downloadUrl, published: $published }';
   }
 
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
@@ -35,7 +35,7 @@ class PoliticalCartoonEntity extends Equatable {
       date: json['date'] as Timestamp,
       author: json['author'] as String,
       description: json['description'] as String,
-      unitId: UnitId.values[json['unitId'] as int],
+      unit: Unit.values[json['unit'] as int],
       downloadUrl: json['downloadUrl'] as String,
       published: json['published'] as Timestamp,
     );
@@ -48,7 +48,7 @@ class PoliticalCartoonEntity extends Equatable {
         date: data['date'] as Timestamp,
         author: data['author'] as String,
         description: data['description'] as String,
-        unitId: UnitId.values[data['unitId'] as int],
+        unit: Unit.values[data['unit'] as int],
         downloadUrl: data['downloadUrl'] as String,
         published: data['published'] as Timestamp);
   }
@@ -58,7 +58,7 @@ class PoliticalCartoonEntity extends Equatable {
       'date': date,
       'author': author,
       'description': description,
-      'unitId': unitId.index,
+      'unit': unit.index,
       'downloadUrl': downloadUrl,
       'published': published,
     };

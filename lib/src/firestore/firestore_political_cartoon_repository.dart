@@ -28,6 +28,9 @@ class FirestorePoliticalCartoonRepository
   Stream<List<PoliticalCartoon>> politicalCartoons() {
     return _collectionReference
         .orderBy('date', descending: true)
+        // .where('published',
+        // isGreaterThan: Timestamp.fromMicrosecondsSinceEpoch(
+        //     DateTime(1999).millisecondsSinceEpoch))
         // .startAfterDocument(docList.length == 0 ? [] : docList.last)
         .limit(10)
         .snapshots()
