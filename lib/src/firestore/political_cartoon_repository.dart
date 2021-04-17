@@ -7,7 +7,7 @@ abstract class PoliticalCartoonRepository {
 
   Future<void> deletePoliticalCartoon(PoliticalCartoon cartoon);
 
-  Stream<List<PoliticalCartoon>> politicalCartoons();
+  Stream<List<PoliticalCartoon>> politicalCartoons({SortByMode? sortByMode});
 
   Future<void> updatePoliticalCartoon(PoliticalCartoon cartoon);
 

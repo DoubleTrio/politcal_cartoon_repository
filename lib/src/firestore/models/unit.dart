@@ -44,6 +44,7 @@ extension Units on Unit {
   };
 
   String get name => names[this] ?? 'Unknown';
+
   PeriodRange get periodRange =>
       periodRanges[this] ?? PeriodRange(0, 0, isValidPeriod: false);
 }

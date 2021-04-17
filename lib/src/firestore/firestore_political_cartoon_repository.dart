@@ -25,9 +25,12 @@ class FirestorePoliticalCartoonRepository
   }
 
   @override
-  Stream<List<PoliticalCartoon>> politicalCartoons() {
+  Stream<List<PoliticalCartoon>> politicalCartoons({SortByMode? sortByMode}) {
+    var fieldName = sortByMode?.query.fieldName ?? 'date';
+    var descending = sortByMode?.query.descending ?? true;
+
     return _collectionReference
-        .orderBy('date', descending: true)
+        .orderBy(fieldName, descending: descending)
         // .where('published',
         // isGreaterThan: Timestamp.fromMicrosecondsSinceEpoch(
         //     DateTime(1999).millisecondsSinceEpoch))
