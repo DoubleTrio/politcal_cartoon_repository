@@ -10,13 +10,11 @@ import 'political_cartoon_repository.dart';
 class FirestorePoliticalCartoonRepository
     implements PoliticalCartoonRepository {
   FirestorePoliticalCartoonRepository(
-      {CollectionReference? collectionReference, TimeConverter? timeConverter})
+      {CollectionReference? collectionReference})
       : _collectionReference = collectionReference ??
-            FirebaseFirestore.instance.collection('cartoons'),
-        _timeConverter = timeConverter ?? DefaultTimeAgo();
+            FirebaseFirestore.instance.collection('cartoons');
 
   final CollectionReference _collectionReference;
-  final TimeConverter _timeConverter;
   List<DocumentSnapshot> docList = [];
 
   @override
@@ -41,7 +39,7 @@ class FirestorePoliticalCartoonRepository
       return snapshot.docs.map((doc) {
         docList.add(doc);
         return PoliticalCartoon.fromEntity(
-            PoliticalCartoonEntity.fromSnapshot(doc), _timeConverter);
+            PoliticalCartoonEntity.fromSnapshot(doc));
       }).toList();
     });
   }
@@ -62,7 +60,7 @@ class FirestorePoliticalCartoonRepository
   Future<PoliticalCartoon> getPoliticalCartoonById(String id) {
     return _collectionReference.doc(id).get().then((value) =>
         PoliticalCartoon.fromEntity(
-            PoliticalCartoonEntity.fromSnapshot(value), _timeConverter));
+            PoliticalCartoonEntity.fromSnapshot(value)));
   }
 
   @override
@@ -74,7 +72,7 @@ class FirestorePoliticalCartoonRepository
         .map((snapshot) {
       return snapshot.docs
           .map((doc) => PoliticalCartoon.fromEntity(
-              PoliticalCartoonEntity.fromSnapshot(doc), _timeConverter))
+              PoliticalCartoonEntity.fromSnapshot(doc)))
           .toList()
           .first;
     });

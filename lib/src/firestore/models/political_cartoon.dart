@@ -10,7 +10,6 @@ class PoliticalCartoon extends Equatable {
   PoliticalCartoon({
     String? id,
     Timestamp? date,
-    TimeConverter timeConverter = const DefaultTimeAgo(),
     required Unit unit,
     required this.author,
     required this.description,
@@ -18,10 +17,7 @@ class PoliticalCartoon extends Equatable {
     required this.published,
   })   : this.id = id ?? '',
         this.unit = unit,
-        this.timeConverter = timeConverter,
         this.date = date ?? Timestamp.now(),
-        this.dateString =
-            timeConverter.timeAgoSinceDate(date ?? Timestamp.now()),
         this.publishedString = DateFormat("yyyy").format(published.toDate());
 
   final String id;
@@ -30,8 +26,6 @@ class PoliticalCartoon extends Equatable {
   final String description;
   final Unit unit;
   final String downloadUrl;
-  final String dateString;
-  final TimeConverter timeConverter;
   final Timestamp published;
   final String publishedString;
 
@@ -43,14 +37,13 @@ class PoliticalCartoon extends Equatable {
         description,
         unit,
         downloadUrl,
-        dateString,
         published,
         publishedString
       ];
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unit: $unit, downloadUrl: $downloadUrl, dateString: $dateString, timeConverter: $timeConverter, published: $published, publishedSting: $publishedString }';
+    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unit: $unit, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
   }
 
   PoliticalCartoonEntity toEntity() {
@@ -65,8 +58,7 @@ class PoliticalCartoon extends Equatable {
     );
   }
 
-  static PoliticalCartoon fromEntity(
-      PoliticalCartoonEntity entity, TimeConverter timeConverter) {
+  static PoliticalCartoon fromEntity(PoliticalCartoonEntity entity) {
     return PoliticalCartoon(
       id: entity.id,
       date: entity.date,
@@ -74,7 +66,6 @@ class PoliticalCartoon extends Equatable {
       description: entity.description,
       unit: entity.unit,
       downloadUrl: entity.downloadUrl,
-      timeConverter: timeConverter,
       published: entity.published,
     );
   }
