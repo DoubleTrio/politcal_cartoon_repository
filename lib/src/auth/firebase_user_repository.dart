@@ -20,4 +20,8 @@ class FirebaseUserRepository implements UserRepository {
   Future<String> getUserId() async {
     return _firebaseAuth.currentUser!.uid;
   }
+
+  Future<void> logout() async {
+    return _firebaseAuth.signOut();
+  }
 }
