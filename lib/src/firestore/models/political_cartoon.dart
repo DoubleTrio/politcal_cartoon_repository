@@ -10,13 +10,13 @@ class PoliticalCartoon extends Equatable {
   PoliticalCartoon({
     String? id,
     Timestamp? date,
-    required Unit unit,
+    required List<Unit> units,
     required this.author,
     required this.description,
     required this.downloadUrl,
     required this.published,
   })   : this.id = id ?? '',
-        this.unit = unit,
+        this.units = units,
         this.date = date ?? Timestamp.now(),
         this.publishedString = DateFormat("yyyy").format(published.toDate());
 
@@ -24,7 +24,7 @@ class PoliticalCartoon extends Equatable {
   final Timestamp date;
   final String author;
   final String description;
-  final Unit unit;
+  final List<Unit> units;
   final String downloadUrl;
   final Timestamp published;
   final String publishedString;
@@ -35,7 +35,7 @@ class PoliticalCartoon extends Equatable {
         date,
         author,
         description,
-        unit,
+        units,
         downloadUrl,
         published,
         publishedString
@@ -43,7 +43,7 @@ class PoliticalCartoon extends Equatable {
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, unit: $unit, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
+    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, units: $units, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
   }
 
   PoliticalCartoonEntity toEntity() {
@@ -52,7 +52,7 @@ class PoliticalCartoon extends Equatable {
       date: date,
       author: author,
       description: description,
-      unit: unit,
+      units: units,
       downloadUrl: downloadUrl,
       published: published,
     );
@@ -63,8 +63,8 @@ class PoliticalCartoon extends Equatable {
       id: entity.id,
       date: entity.date,
       author: entity.author,
-      description: entity.description,
-      unit: entity.unit,
+      description: entity.description.replaceAll('\\n', '\n'),
+      units: entity.units,
       downloadUrl: entity.downloadUrl,
       published: entity.published,
     );

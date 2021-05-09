@@ -22,7 +22,7 @@ void main() {
         id: id,
         author: author,
         description: description,
-        unit: Unit.unit1,
+        units: [Unit.unit1],
         downloadUrl: downloadUrl,
         published: published,
       );
@@ -47,7 +47,7 @@ void main() {
         'date': politicalCartoon.date,
         'author': author,
         'description': description,
-        'unit': unit.index,
+        'units': [unit.index],
         'downloadUrl': downloadUrl,
         'published': published
       };

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:political_cartoon_repository/src/firestore/models/models.dart';
+import 'package:political_cartoon_repository/src/firestore/utils/utils.dart';
 
 class PoliticalCartoonEntity extends Equatable {
   PoliticalCartoonEntity(
@@ -8,7 +9,7 @@ class PoliticalCartoonEntity extends Equatable {
       required this.author,
       required this.date,
       required this.description,
-      required this.unit,
+      required this.units,
       required this.downloadUrl,
       required this.published});
 
@@ -16,17 +17,17 @@ class PoliticalCartoonEntity extends Equatable {
   final Timestamp date;
   final String author;
   final String description;
-  final Unit unit;
+  final List<Unit> units;
   final String downloadUrl;
   final Timestamp published;
 
   @override
   List<Object?> get props =>
-      [id, date, author, description, unit, downloadUrl, published];
+      [id, date, author, description, units, downloadUrl, published];
 
   @override
   String toString() {
-    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, Unit: $unit, downLoadUrl: $downloadUrl, published: $published }';
+    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, units: $units, downLoadUrl: $downloadUrl, published: $published }';
   }
 
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
@@ -35,7 +36,7 @@ class PoliticalCartoonEntity extends Equatable {
       date: json['date'] as Timestamp,
       author: json['author'] as String,
       description: json['description'] as String,
-      unit: Unit.values[json['unit'] as int],
+      units: mapUnitIdToUnits(json['units'] as List<int>),
       downloadUrl: json['downloadUrl'] as String,
       published: json['published'] as Timestamp,
     );
@@ -48,7 +49,7 @@ class PoliticalCartoonEntity extends Equatable {
         date: data['date'] as Timestamp,
         author: data['author'] as String,
         description: data['description'] as String,
-        unit: Unit.values[data['unit'] as int],
+        units: mapUnitIdToUnits(List<int>.from(data['units'])),
         downloadUrl: data['downloadUrl'] as String,
         published: data['published'] as Timestamp);
   }
@@ -58,7 +59,7 @@ class PoliticalCartoonEntity extends Equatable {
       'date': date,
       'author': author,
       'description': description,
-      'unit': unit.index,
+      'units': mapUnitsToUnitIds(units),
       'downloadUrl': downloadUrl,
       'published': published,
     };
