@@ -9,7 +9,7 @@ class PoliticalCartoonEntity extends Equatable {
       required this.author,
       required this.date,
       required this.description,
-      required this.units,
+      required this.tags,
       required this.downloadUrl,
       required this.published});
 
@@ -17,17 +17,17 @@ class PoliticalCartoonEntity extends Equatable {
   final Timestamp date;
   final String author;
   final String description;
-  final List<Unit> units;
+  final List<Tag> tags;
   final String downloadUrl;
   final Timestamp published;
 
   @override
   List<Object?> get props =>
-      [id, date, author, description, units, downloadUrl, published];
+      [id, date, author, description, tags, downloadUrl, published];
 
   @override
   String toString() {
-    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, units: $units, downLoadUrl: $downloadUrl, published: $published }';
+    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, tags: $tags, downLoadUrl: $downloadUrl, published: $published }';
   }
 
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
@@ -36,7 +36,7 @@ class PoliticalCartoonEntity extends Equatable {
       date: json['date'] as Timestamp,
       author: json['author'] as String,
       description: json['description'] as String,
-      units: mapUnitIdToUnits(json['units'] as List<int>),
+      tags: mapTagIdToTags(json['tags'] as List<int>),
       downloadUrl: json['downloadUrl'] as String,
       published: json['published'] as Timestamp,
     );
@@ -49,7 +49,7 @@ class PoliticalCartoonEntity extends Equatable {
         date: data['date'] as Timestamp,
         author: data['author'] as String,
         description: data['description'] as String,
-        units: mapUnitIdToUnits(List<int>.from(data['units'])),
+        tags: mapTagIdToTags(List<int>.from(data['tags'])),
         downloadUrl: data['downloadUrl'] as String,
         published: data['published'] as Timestamp);
   }
@@ -59,7 +59,7 @@ class PoliticalCartoonEntity extends Equatable {
       'date': date,
       'author': author,
       'description': description,
-      'units': mapUnitsToUnitIds(units),
+      'tags': mapTagsToTagIds(tags),
       'downloadUrl': downloadUrl,
       'published': published,
     };

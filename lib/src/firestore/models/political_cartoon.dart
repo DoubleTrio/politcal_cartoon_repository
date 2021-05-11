@@ -10,13 +10,13 @@ class PoliticalCartoon extends Equatable {
   PoliticalCartoon({
     String? id,
     Timestamp? date,
-    required List<Unit> units,
+    required List<Tag> tags,
     required this.author,
     required this.description,
     required this.downloadUrl,
     required this.published,
   })   : this.id = id ?? '',
-        this.units = units,
+        this.tags = tags,
         this.date = date ?? Timestamp.now(),
         this.publishedString = DateFormat("yyyy").format(published.toDate());
 
@@ -24,7 +24,7 @@ class PoliticalCartoon extends Equatable {
   final Timestamp date;
   final String author;
   final String description;
-  final List<Unit> units;
+  final List<Tag> tags;
   final String downloadUrl;
   final Timestamp published;
   final String publishedString;
@@ -35,7 +35,7 @@ class PoliticalCartoon extends Equatable {
         date,
         author,
         description,
-        units,
+        tags,
         downloadUrl,
         published,
         publishedString
@@ -43,7 +43,7 @@ class PoliticalCartoon extends Equatable {
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, units: $units, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
+    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, tags: $tags, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
   }
 
   PoliticalCartoonEntity toEntity() {
@@ -52,7 +52,7 @@ class PoliticalCartoon extends Equatable {
       date: date,
       author: author,
       description: description,
-      units: units,
+      tags: tags,
       downloadUrl: downloadUrl,
       published: published,
     );
@@ -64,7 +64,7 @@ class PoliticalCartoon extends Equatable {
       date: entity.date,
       author: entity.author,
       description: entity.description.replaceAll('\\n', '\n'),
-      units: entity.units,
+      tags: entity.tags,
       downloadUrl: entity.downloadUrl,
       published: entity.published,
     );
