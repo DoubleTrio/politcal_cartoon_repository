@@ -15,7 +15,8 @@ class PoliticalCartoon extends Equatable {
     required this.description,
     required this.downloadUrl,
     required this.published,
-  })   : this.id = id ?? '',
+    required this.type,
+  })  : this.id = id ?? '',
         this.tags = tags,
         this.date = date ?? Timestamp.now(),
         this.publishedString = DateFormat("yyyy").format(published.toDate());
@@ -28,18 +29,20 @@ class PoliticalCartoon extends Equatable {
   final String downloadUrl;
   final Timestamp published;
   final String publishedString;
+  final ImageType type;
 
   @override
   List<Object?> get props => [
-        id,
-        date,
-        author,
-        description,
-        tags,
-        downloadUrl,
-        published,
-        publishedString
-      ];
+    id,
+    date,
+    author,
+    description,
+    tags,
+    downloadUrl,
+    published,
+    publishedString,
+    type
+  ];
 
   @override
   String toString() {
@@ -55,6 +58,7 @@ class PoliticalCartoon extends Equatable {
       tags: tags,
       downloadUrl: downloadUrl,
       published: published,
+      type: type
     );
   }
 
@@ -67,6 +71,7 @@ class PoliticalCartoon extends Equatable {
       tags: entity.tags,
       downloadUrl: entity.downloadUrl,
       published: entity.published,
+      type: entity.type,
     );
   }
 }

@@ -15,6 +15,7 @@ void main() {
   String description = 'A very good description';
   Tag tag = Tag.tag1;
   Timestamp published = Timestamp.now();
+  ImageType type = ImageType.cartoon;
 
   group('Political Cartoon', () {
     setUpAll(() {
@@ -25,6 +26,7 @@ void main() {
         tags: [Tag.tag1],
         downloadUrl: downloadUrl,
         published: published,
+        type: ImageType.cartoon,
       );
     });
 
@@ -49,7 +51,8 @@ void main() {
         'description': description,
         'tags': [tag.index],
         'downloadUrl': downloadUrl,
-        'published': published
+        'published': published,
+        'type': type.imageType
       };
       expect(PoliticalCartoonEntity.fromJson(data),
           equals(politicalCartoon.toEntity()));

@@ -4,14 +4,16 @@ import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 import 'package:political_cartoon_repository/src/firestore/utils/utils.dart';
 
 class PoliticalCartoonEntity extends Equatable {
-  PoliticalCartoonEntity(
-      {required this.id,
-      required this.author,
-      required this.date,
-      required this.description,
-      required this.tags,
-      required this.downloadUrl,
-      required this.published});
+  PoliticalCartoonEntity({
+    required this.id,
+    required this.author,
+    required this.date,
+    required this.description,
+    required this.tags,
+    required this.downloadUrl,
+    required this.published,
+    required this.type
+  });
 
   final String id;
   final Timestamp date;
@@ -20,14 +22,23 @@ class PoliticalCartoonEntity extends Equatable {
   final List<Tag> tags;
   final String downloadUrl;
   final Timestamp published;
+  final ImageType type;
 
   @override
-  List<Object?> get props =>
-      [id, date, author, description, tags, downloadUrl, published];
+  List<Object?> get props => [id, date, author, description, tags, downloadUrl, published, type];
 
   @override
   String toString() {
-    return 'PoliticalCartoonEntity { id: $id, date: $date, author: $author, description: $description, tags: $tags, downLoadUrl: $downloadUrl, published: $published }';
+    return 'PoliticalCartoonEntity { '
+      'id: $id, '
+      'date: $date, '
+      'author: $author, '
+      'description: $description, '
+      'tags: $tags, '
+      'downLoadUrl: $downloadUrl, '
+      'published: $published '
+      'type: $type'
+    '}';
   }
 
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
@@ -39,6 +50,7 @@ class PoliticalCartoonEntity extends Equatable {
       tags: mapTagIdToTags(json['tags'] as List<int>),
       downloadUrl: json['downloadUrl'] as String,
       published: json['published'] as Timestamp,
+      type: ImageTypeExtension.fromString(json['type'] as String)
     );
   }
 
@@ -51,7 +63,9 @@ class PoliticalCartoonEntity extends Equatable {
         description: data['description'] as String,
         tags: mapTagIdToTags(List<int>.from(data['tags'])),
         downloadUrl: data['downloadUrl'] as String,
-        published: data['published'] as Timestamp);
+        published: data['published'] as Timestamp,
+        type: ImageTypeExtension.fromString(data['type'] as String),
+    );
   }
 
   Map<String, Object?> toDocument() {
@@ -62,6 +76,7 @@ class PoliticalCartoonEntity extends Equatable {
       'tags': mapTagsToTagIds(tags),
       'downloadUrl': downloadUrl,
       'published': published,
+      'type': type.imageType,
     };
   }
 }
