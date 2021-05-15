@@ -7,7 +7,7 @@ class PoliticalCartoonEntity extends Equatable {
   PoliticalCartoonEntity({
     required this.id,
     required this.author,
-    required this.date,
+    required this.timestamp,
     required this.description,
     required this.tags,
     required this.downloadUrl,
@@ -16,7 +16,7 @@ class PoliticalCartoonEntity extends Equatable {
   });
 
   final String id;
-  final Timestamp date;
+  final Timestamp timestamp;
   final String author;
   final String description;
   final List<Tag> tags;
@@ -25,13 +25,13 @@ class PoliticalCartoonEntity extends Equatable {
   final ImageType type;
 
   @override
-  List<Object?> get props => [id, date, author, description, tags, downloadUrl, published, type];
+  List<Object?> get props => [id, timestamp, author, description, tags, downloadUrl, published, type];
 
   @override
   String toString() {
     return 'PoliticalCartoonEntity { '
       'id: $id, '
-      'date: $date, '
+      'timestamp: $timestamp, '
       'author: $author, '
       'description: $description, '
       'tags: $tags, '
@@ -44,7 +44,7 @@ class PoliticalCartoonEntity extends Equatable {
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
     return PoliticalCartoonEntity(
       id: json['id'] as String,
-      date: json['date'] as Timestamp,
+      timestamp: json['timestamp'] as Timestamp,
       author: json['author'] as String,
       description: json['description'] as String,
       tags: mapTagIdToTags(json['tags'] as List<int>),
@@ -58,7 +58,7 @@ class PoliticalCartoonEntity extends Equatable {
     Map<String, dynamic> data = snap.data()!;
     return PoliticalCartoonEntity(
         id: snap.id,
-        date: data['date'] as Timestamp,
+        timestamp: data['timestamp'] as Timestamp,
         author: data['author'] as String,
         description: data['description'] as String,
         tags: mapTagIdToTags(List<int>.from(data['tags'])),
@@ -70,13 +70,13 @@ class PoliticalCartoonEntity extends Equatable {
 
   Map<String, Object?> toDocument() {
     return {
-      'date': date,
+      'timestamp': timestamp,
       'author': author,
       'description': description,
       'tags': mapTagsToTagIds(tags),
       'downloadUrl': downloadUrl,
       'published': published,
-      'type': type.imageType,
+      'type': type.docType,
     };
   }
 }

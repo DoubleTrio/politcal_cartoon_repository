@@ -7,6 +7,25 @@ import 'entities/entities.dart';
 import 'models/models.dart';
 import 'political_cartoon_repository.dart';
 
+class _QueryCreator {
+  Query createQuery(CollectionReference reference, SortByMode sortByMode, ImageType imageType, Tag tag) {
+    var fieldName = sortByMode.query.fieldName;
+    var descending = sortByMode.query.descending;
+    if (imageType != ImageType.all && tag != Tag.all) {
+      return reference.orderBy(fieldName, descending: descending)
+        .where('tags', arrayContains: tag.index)
+        .where('type', isEqualTo: imageType.docType);
+    } else if (imageType != ImageType.all) {
+      return reference.orderBy(fieldName, descending: descending)
+        .where('type', isEqualTo: imageType.docType);
+    } else if (tag != Tag.all) {
+      return reference.orderBy(fieldName, descending: descending)
+        .where('tags', arrayContains: tag.index);
+    }
+    return reference.orderBy(fieldName, descending: descending);
+  }
+}
+
 class FirestorePoliticalCartoonRepository
     implements PoliticalCartoonRepository {
   FirestorePoliticalCartoonRepository({CollectionReference? collectionReference})
@@ -16,6 +35,7 @@ class FirestorePoliticalCartoonRepository
   final CollectionReference _collectionReference;
 
   List<DocumentSnapshot> docList = [];
+  _QueryCreator _queryCreator = _QueryCreator();
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
@@ -23,20 +43,17 @@ class FirestorePoliticalCartoonRepository
   }
 
   @override
-  Stream<List<PoliticalCartoon>> politicalCartoons({SortByMode? sortByMode, int limit = 10}) {
-    var fieldName = sortByMode?.query.fieldName ?? 'date';
-    var descending = sortByMode?.query.descending ?? true;
-
+  Stream<List<PoliticalCartoon>> politicalCartoons({
+    required SortByMode sortByMode,
+    required ImageType imageType,
+    required Tag tag,
+    int limit = 10
+  }) {
     docList = [];
-    var snapshots = _collectionReference
-      .orderBy(fieldName, descending: descending)
-      // .where('published',
-      // isGreaterThan: Timestamp.fromMicrosecondsSinceEpoch(
-      //     DateTime(1999).millisecondsSinceEpoch))
-      // .startAfterDocument(docList.length == 0 ? [] : docList.last)
-      .limit(limit)
-      .snapshots();
 
+    Query query = _queryCreator.createQuery(_collectionReference, sortByMode, imageType, tag);
+
+    var snapshots = query.limit(limit).snapshots();
     return snapshots.map((snapshot) {
       return snapshot.docs.map((doc) {
         docList.add(doc);
@@ -47,16 +64,15 @@ class FirestorePoliticalCartoonRepository
   }
 
   @override
-  Stream<List<PoliticalCartoon>> loadMorePoliticalCartoons({SortByMode? sortByMode, int limit = 10}) {
-    var fieldName = sortByMode?.query.fieldName ?? 'date';
-    var descending = sortByMode?.query.descending ?? true;
+  Stream<List<PoliticalCartoon>> loadMorePoliticalCartoons({
+    required SortByMode sortByMode,
+    required ImageType imageType,
+    required Tag tag,
+    int limit = 10
+  }) {
 
-    var snapshots = _collectionReference
-      .orderBy(fieldName, descending: descending)
-      .startAfter(docList[docList.length - 1] as dynamic)
-      .limit(limit)
-      .snapshots();
-
+    Query query = _queryCreator.createQuery(_collectionReference, sortByMode, imageType, tag);
+    var snapshots = query.startAfter(docList[docList.length - 1] as dynamic).limit(limit).snapshots();
     return snapshots.map((snapshot) {
       return snapshot.docs.map((doc) {
         docList.add(doc);
@@ -92,7 +108,7 @@ class FirestorePoliticalCartoonRepository
   @override
   Stream<PoliticalCartoon> getLatestPoliticalCartoon() {
     return _collectionReference
-      .orderBy('date', descending: true)
+      .orderBy('timestamp', descending: true)
       .limit(1)
       .snapshots()
       .map((snapshot) {

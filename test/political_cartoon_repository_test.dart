@@ -30,10 +30,10 @@ void main() {
       );
     });
 
-    test('date stays the same while converting political cartoon to entity',
+    test('timestamp stays the same while converting political cartoon to entity',
         () {
       var entity = politicalCartoon.toEntity();
-      expect(entity.date, politicalCartoon.date);
+      expect(entity.timestamp, politicalCartoon.timestamp);
     });
 
     test(
@@ -46,7 +46,7 @@ void main() {
     test('fromJson method works as intended', () {
       Map<String, Object> data = {
         'id': id,
-        'date': politicalCartoon.date,
+        'timestamp': politicalCartoon.timestamp,
         'author': author,
         'description': description,
         'tags': [tag.index],

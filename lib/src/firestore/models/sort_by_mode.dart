@@ -30,11 +30,11 @@ extension SortByExtension on SortByMode {
   };
 
   static const queries = {
-    SortByMode.latestPosted: OrderBy(fieldName: 'published', descending: true),
+    SortByMode.latestPosted: OrderBy(fieldName: 'timestamp', descending: true),
     SortByMode.earliestPosted:
-        OrderBy(fieldName: 'published', descending: false),
-    SortByMode.latestPublished: OrderBy(fieldName: 'date', descending: true),
-    SortByMode.earliestPublished: OrderBy(fieldName: 'date', descending: false),
+        OrderBy(fieldName: 'timestamp', descending: false),
+    SortByMode.latestPublished: OrderBy(fieldName: 'published', descending: true),
+    SortByMode.earliestPublished: OrderBy(fieldName: 'published', descending: false),
   };
 
   String get header => headers[this] ?? 'Unknown';

@@ -9,7 +9,7 @@ import 'models.dart';
 class PoliticalCartoon extends Equatable {
   PoliticalCartoon({
     String? id,
-    Timestamp? date,
+    Timestamp? timestamp,
     required List<Tag> tags,
     required this.author,
     required this.description,
@@ -18,11 +18,11 @@ class PoliticalCartoon extends Equatable {
     required this.type,
   })  : this.id = id ?? '',
         this.tags = tags,
-        this.date = date ?? Timestamp.now(),
+        this.timestamp = timestamp ?? Timestamp.now(),
         this.publishedString = DateFormat("yyyy").format(published.toDate());
 
   final String id;
-  final Timestamp date;
+  final Timestamp timestamp;
   final String author;
   final String description;
   final List<Tag> tags;
@@ -34,7 +34,7 @@ class PoliticalCartoon extends Equatable {
   @override
   List<Object?> get props => [
     id,
-    date,
+    timestamp,
     author,
     description,
     tags,
@@ -46,13 +46,13 @@ class PoliticalCartoon extends Equatable {
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, date: $date, author: $author, description: $description, tags: $tags, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
+    return 'PoliticalCartoon { id: $id, timestamp: $timestamp, author: $author, description: $description, tags: $tags, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
   }
 
   PoliticalCartoonEntity toEntity() {
     return PoliticalCartoonEntity(
       id: id,
-      date: date,
+      timestamp: timestamp,
       author: author,
       description: description,
       tags: tags,
@@ -65,13 +65,33 @@ class PoliticalCartoon extends Equatable {
   static PoliticalCartoon fromEntity(PoliticalCartoonEntity entity) {
     return PoliticalCartoon(
       id: entity.id,
-      date: entity.date,
+      timestamp: entity.timestamp,
       author: entity.author,
       description: entity.description.replaceAll('\\n', '\n'),
       tags: entity.tags,
       downloadUrl: entity.downloadUrl,
       published: entity.published,
       type: entity.type,
+    );
+  }
+
+  PoliticalCartoon copyWith({
+    String? id,
+    Timestamp? timestamp,
+    List<Tag>? tags,
+    String? author,
+    String? description,
+    String? downloadUrl,
+    Timestamp? published,
+    ImageType? type,
+  }) {
+    return PoliticalCartoon(
+      tags: tags ?? this.tags,
+      author: author ?? this.author,
+      description: description ?? this.description,
+      downloadUrl: downloadUrl ?? this.downloadUrl,
+      published: published ?? this.published,
+      type: type ?? this.type,
     );
   }
 }

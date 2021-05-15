@@ -18,6 +18,7 @@ enum Tag {
   tag16,
   tag17,
   tag18,
+  tag19,
   worldHistory,
 }
 
@@ -42,6 +43,7 @@ extension Tags on Tag {
     Tag.tag16: 'Civil Rights',
     Tag.tag17: 'Native Americans',
     Tag.tag18: 'Imperialism',
+    Tag.tag19: 'Elections',
     Tag.worldHistory: 'World History',
   };
 
