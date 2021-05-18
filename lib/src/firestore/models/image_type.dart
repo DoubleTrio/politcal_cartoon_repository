@@ -1,12 +1,6 @@
 import 'package:intl/intl.dart';
 
-enum ImageType {
-  all,
-  cartoon,
-  photo,
-  document,
-  infographic
-}
+enum ImageType { all, cartoon, photo, document, infographic }
 
 extension ImageTypeExtension on ImageType {
   static const imageTypes = {

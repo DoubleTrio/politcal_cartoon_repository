@@ -23,18 +23,20 @@ class OrderBy extends Equatable {
 
 extension SortByExtension on SortByMode {
   static const headers = {
-    SortByMode.latestPosted: 'Latest Daily Cartoon',
-    SortByMode.earliestPosted: 'Earliest Daily Cartoon',
-    SortByMode.latestPublished: 'Latest Published Cartoon',
-    SortByMode.earliestPublished: 'Earliest Published Cartoon',
+    SortByMode.latestPosted: 'Latest Image',
+    SortByMode.earliestPosted: 'Earliest Image',
+    SortByMode.latestPublished: 'Latest Published Image',
+    SortByMode.earliestPublished: 'Earliest Published Image',
   };
 
   static const queries = {
     SortByMode.latestPosted: OrderBy(fieldName: 'timestamp', descending: true),
     SortByMode.earliestPosted:
         OrderBy(fieldName: 'timestamp', descending: false),
-    SortByMode.latestPublished: OrderBy(fieldName: 'published', descending: true),
-    SortByMode.earliestPublished: OrderBy(fieldName: 'published', descending: false),
+    SortByMode.latestPublished:
+        OrderBy(fieldName: 'published', descending: true),
+    SortByMode.earliestPublished:
+        OrderBy(fieldName: 'published', descending: false),
   };
 
   String get header => headers[this] ?? 'Unknown';

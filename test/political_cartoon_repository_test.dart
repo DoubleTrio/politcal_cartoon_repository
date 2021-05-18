@@ -9,13 +9,13 @@ class MockPoliticalCartoonEntity extends Mock
 void main() {
   late PoliticalCartoon politicalCartoon;
 
-  String id = '1';
-  String downloadUrl = 'downloadUrl';
-  String author = 'Bob';
-  String description = 'A very good description';
-  Tag tag = Tag.tag1;
-  Timestamp published = Timestamp.now();
-  ImageType type = ImageType.cartoon;
+  final id = '1';
+  final downloadUrl = 'downloadUrl';
+  final author = 'Bob';
+  final description = 'A very good description';
+  final tag = Tag.tag1;
+  final published = Timestamp.now();
+  final type = ImageType.cartoon;
 
   group('Political Cartoon', () {
     setUpAll(() {
@@ -30,21 +30,22 @@ void main() {
       );
     });
 
-    test('timestamp stays the same while converting political cartoon to entity',
+    test(
+        'timestamp stays the same while converting political cartoon to entity',
         () {
       var entity = politicalCartoon.toEntity();
       expect(entity.timestamp, politicalCartoon.timestamp);
     });
 
     test(
-        'conversion from political cartoon model to entity and entity to model works',
-        () {
+        'conversion '
+        'from political cartoon model to entity and entity to model works', () {
       var cartoon = PoliticalCartoon.fromEntity(politicalCartoon.toEntity());
       expect(cartoon, politicalCartoon);
     });
 
     test('fromJson method works as intended', () {
-      Map<String, Object> data = {
+      final data = {
         'id': id,
         'timestamp': politicalCartoon.timestamp,
         'author': author,

@@ -7,17 +7,15 @@ abstract class PoliticalCartoonRepository {
 
   Future<void> deletePoliticalCartoon(PoliticalCartoon cartoon);
 
-  Stream<List<PoliticalCartoon>> politicalCartoons({
-    required SortByMode sortByMode,
-    required ImageType imageType,
-    required Tag tag
-  });
+  Future<List<PoliticalCartoon>> politicalCartoons(
+      {required SortByMode sortByMode,
+      required ImageType imageType,
+      required Tag tag});
 
-  Stream<List<PoliticalCartoon>> loadMorePoliticalCartoons({
-    required SortByMode sortByMode,
-    required ImageType imageType,
-    required Tag tag
-  });
+  Future<List<PoliticalCartoon>> loadMorePoliticalCartoons(
+      {required SortByMode sortByMode,
+      required ImageType imageType,
+      required Tag tag});
 
   Future<void> updatePoliticalCartoon(PoliticalCartoon cartoon);
 

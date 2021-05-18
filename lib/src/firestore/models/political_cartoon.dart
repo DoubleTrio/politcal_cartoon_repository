@@ -10,16 +10,15 @@ class PoliticalCartoon extends Equatable {
   PoliticalCartoon({
     String? id,
     Timestamp? timestamp,
-    required List<Tag> tags,
+    required this.tags,
     required this.author,
     required this.description,
     required this.downloadUrl,
     required this.published,
     required this.type,
-  })  : this.id = id ?? '',
-        this.tags = tags,
-        this.timestamp = timestamp ?? Timestamp.now(),
-        this.publishedString = DateFormat("yyyy").format(published.toDate());
+  })  : id = id ?? '',
+        timestamp = timestamp ?? Timestamp.now(),
+        publishedString = DateFormat('yyyy').format(published.toDate());
 
   final String id;
   final Timestamp timestamp;
@@ -33,33 +32,41 @@ class PoliticalCartoon extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    timestamp,
-    author,
-    description,
-    tags,
-    downloadUrl,
-    published,
-    publishedString,
-    type
-  ];
+        id,
+        timestamp,
+        author,
+        description,
+        tags,
+        downloadUrl,
+        published,
+        publishedString,
+        type
+      ];
 
   @override
   String toString() {
-    return 'PoliticalCartoon { id: $id, timestamp: $timestamp, author: $author, description: $description, tags: $tags, downloadUrl: $downloadUrl, published: $published, publishedSting: $publishedString }';
+    return 'PoliticalCartoon { '
+        'id: $id, '
+        'timestamp: $timestamp, '
+        'author: $author, '
+        'description: $description, '
+        'tags: $tags, '
+        'downloadUrl: $downloadUrl, '
+        'published: $published, '
+        'publishedSting: $publishedString '
+        '}';
   }
 
   PoliticalCartoonEntity toEntity() {
     return PoliticalCartoonEntity(
-      id: id,
-      timestamp: timestamp,
-      author: author,
-      description: description,
-      tags: tags,
-      downloadUrl: downloadUrl,
-      published: published,
-      type: type
-    );
+        id: id,
+        timestamp: timestamp,
+        author: author,
+        description: description,
+        tags: tags,
+        downloadUrl: downloadUrl,
+        published: published,
+        type: type);
   }
 
   static PoliticalCartoon fromEntity(PoliticalCartoonEntity entity) {

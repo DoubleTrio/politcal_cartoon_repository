@@ -8,19 +8,23 @@ import 'models/models.dart';
 import 'political_cartoon_repository.dart';
 
 class _QueryCreator {
-  Query createQuery(CollectionReference reference, SortByMode sortByMode, ImageType imageType, Tag tag) {
-    var fieldName = sortByMode.query.fieldName;
-    var descending = sortByMode.query.descending;
+  Query createQuery(CollectionReference reference, SortByMode sortByMode,
+      ImageType imageType, Tag tag) {
+    final fieldName = sortByMode.query.fieldName;
+    final descending = sortByMode.query.descending;
     if (imageType != ImageType.all && tag != Tag.all) {
-      return reference.orderBy(fieldName, descending: descending)
-        .where('tags', arrayContains: tag.index)
-        .where('type', isEqualTo: imageType.docType);
+      return reference
+          .orderBy(fieldName, descending: descending)
+          .where('tags', arrayContains: tag.index)
+          .where('type', isEqualTo: imageType.docType);
     } else if (imageType != ImageType.all) {
-      return reference.orderBy(fieldName, descending: descending)
-        .where('type', isEqualTo: imageType.docType);
+      return reference
+          .orderBy(fieldName, descending: descending)
+          .where('type', isEqualTo: imageType.docType);
     } else if (tag != Tag.all) {
-      return reference.orderBy(fieldName, descending: descending)
-        .where('tags', arrayContains: tag.index);
+      return reference
+          .orderBy(fieldName, descending: descending)
+          .where('tags', arrayContains: tag.index);
     }
     return reference.orderBy(fieldName, descending: descending);
   }
@@ -28,14 +32,15 @@ class _QueryCreator {
 
 class FirestorePoliticalCartoonRepository
     implements PoliticalCartoonRepository {
-  FirestorePoliticalCartoonRepository({CollectionReference? collectionReference})
+  FirestorePoliticalCartoonRepository(
+      {CollectionReference? collectionReference})
       : _collectionReference = collectionReference ??
-        FirebaseFirestore.instance.collection('cartoons');
+            FirebaseFirestore.instance.collection('cartoons');
 
   final CollectionReference _collectionReference;
 
   List<DocumentSnapshot> docList = [];
-  _QueryCreator _queryCreator = _QueryCreator();
+  final _QueryCreator _queryCreator = _QueryCreator();
 
   @override
   Future<void> addNewPoliticalCartoon(PoliticalCartoon cartoon) {
@@ -43,46 +48,43 @@ class FirestorePoliticalCartoonRepository
   }
 
   @override
-  Stream<List<PoliticalCartoon>> politicalCartoons({
-    required SortByMode sortByMode,
-    required ImageType imageType,
-    required Tag tag,
-    int limit = 10
-  }) {
+  Future<List<PoliticalCartoon>> politicalCartoons(
+      {required SortByMode sortByMode,
+      required ImageType imageType,
+      required Tag tag,
+      int limit = 15}) async {
     docList = [];
+    final query = _queryCreator.createQuery(
+        _collectionReference, sortByMode, imageType, tag);
 
-    Query query = _queryCreator.createQuery(_collectionReference, sortByMode, imageType, tag);
-
-    var snapshots = query.limit(limit).snapshots();
-    return snapshots.map((snapshot) {
-      return snapshot.docs.map((doc) {
-        docList.add(doc);
-        return PoliticalCartoon.fromEntity(
-          PoliticalCartoonEntity.fromSnapshot(doc));
-      }).toList();
-    });
+    var snapshots = await query.limit(limit).get();
+    var docs = snapshots.docs;
+    docList = [...docList, ...docs];
+    return docs
+        .map((DocumentSnapshot doc) => PoliticalCartoon.fromEntity(
+            PoliticalCartoonEntity.fromSnapshot(doc)))
+        .toList();
   }
 
   @override
-  Stream<List<PoliticalCartoon>> loadMorePoliticalCartoons({
-    required SortByMode sortByMode,
-    required ImageType imageType,
-    required Tag tag,
-    int limit = 10
-  }) {
-
-    Query query = _queryCreator.createQuery(_collectionReference, sortByMode, imageType, tag);
-    var snapshots = query.startAfter(docList[docList.length - 1] as dynamic).limit(limit).snapshots();
-    return snapshots.map((snapshot) {
-      return snapshot.docs.map((doc) {
-        docList.add(doc);
-        return PoliticalCartoon.fromEntity(
-            PoliticalCartoonEntity.fromSnapshot(doc));
-      }).toList();
-    });
+  Future<List<PoliticalCartoon>> loadMorePoliticalCartoons(
+      {required SortByMode sortByMode,
+      required ImageType imageType,
+      required Tag tag,
+      int limit = 15}) async {
+    final query = _queryCreator.createQuery(
+        _collectionReference, sortByMode, imageType, tag);
+    var snapshots = await query
+        .startAfterDocument(docList[docList.length - 1])
+        .limit(limit)
+        .get();
+    var docs = snapshots.docs;
+    docList = [...docList, ...docs];
+    return docs
+        .map((DocumentSnapshot doc) => PoliticalCartoon.fromEntity(
+            PoliticalCartoonEntity.fromSnapshot(doc)))
+        .toList();
   }
-
-
 
   @override
   Future<void> deletePoliticalCartoon(PoliticalCartoon cartoon) {
@@ -92,30 +94,29 @@ class FirestorePoliticalCartoonRepository
   @override
   Future<void> updatePoliticalCartoon(PoliticalCartoon updatedCartoon) {
     return _collectionReference.firestore
-      .doc(updatedCartoon.id)
-      .update(updatedCartoon.toEntity().toDocument());
+        .doc(updatedCartoon.id)
+        .update(updatedCartoon.toEntity().toDocument());
   }
 
   @override
   Future<PoliticalCartoon> getPoliticalCartoonById(String id) {
     return _collectionReference.doc(id).get().then((value) =>
-      PoliticalCartoon.fromEntity(
-        PoliticalCartoonEntity.fromSnapshot(value)
-      )
-    );
+        PoliticalCartoon.fromEntity(
+            PoliticalCartoonEntity.fromSnapshot(value)));
   }
 
   @override
   Stream<PoliticalCartoon> getLatestPoliticalCartoon() {
     return _collectionReference
-      .orderBy('timestamp', descending: true)
-      .limit(1)
-      .snapshots()
-      .map((snapshot) {
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs
-        .map((doc) => PoliticalCartoon.fromEntity(
-          PoliticalCartoonEntity.fromSnapshot(doc)
-        )).toList().first;
+          .map((doc) => PoliticalCartoon.fromEntity(
+              PoliticalCartoonEntity.fromSnapshot(doc)))
+          .toList()
+          .first;
     });
   }
 }
