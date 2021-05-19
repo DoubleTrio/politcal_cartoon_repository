@@ -16,9 +16,10 @@ class PoliticalCartoon extends Equatable {
     required this.downloadUrl,
     required this.published,
     required this.type,
-  })  : id = id ?? '',
-        timestamp = timestamp ?? Timestamp.now(),
-        publishedString = DateFormat('yyyy').format(published.toDate());
+  }) :
+    id = id ?? '',
+    timestamp = timestamp ?? Timestamp.now(),
+    publishedString = DateFormat('yyyy').format(published.toDate());
 
   final String id;
   final Timestamp timestamp;
@@ -46,27 +47,28 @@ class PoliticalCartoon extends Equatable {
   @override
   String toString() {
     return 'PoliticalCartoon { '
-        'id: $id, '
-        'timestamp: $timestamp, '
-        'author: $author, '
-        'description: $description, '
-        'tags: $tags, '
-        'downloadUrl: $downloadUrl, '
-        'published: $published, '
-        'publishedSting: $publishedString '
-        '}';
+      'id: $id, '
+      'timestamp: $timestamp, '
+      'author: $author, '
+      'description: $description, '
+      'tags: $tags, '
+      'downloadUrl: $downloadUrl, '
+      'published: $published, '
+      'publishedSting: $publishedString '
+    '}';
   }
 
   PoliticalCartoonEntity toEntity() {
     return PoliticalCartoonEntity(
-        id: id,
-        timestamp: timestamp,
-        author: author,
-        description: description,
-        tags: tags,
-        downloadUrl: downloadUrl,
-        published: published,
-        type: type);
+      id: id,
+      timestamp: timestamp,
+      author: author,
+      description: description,
+      tags: tags,
+      downloadUrl: downloadUrl,
+      published: published,
+      type: type
+    );
   }
 
   static PoliticalCartoon fromEntity(PoliticalCartoonEntity entity) {

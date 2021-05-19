@@ -12,7 +12,7 @@ class PeriodRange extends Equatable {
 
   @override
   String toString() =>
-      'PeriodRange($startDate, $endDate, { isValidPeriod: $isValidPeriod })';
+    'PeriodRange($startDate, $endDate, { isValidPeriod: $isValidPeriod })';
 
   String format() => '$startDate-$endDate';
 }

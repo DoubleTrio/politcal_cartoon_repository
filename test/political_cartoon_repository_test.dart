@@ -30,17 +30,12 @@ void main() {
       );
     });
 
-    test(
-        'timestamp stays the same while converting political cartoon to entity',
-        () {
-      var entity = politicalCartoon.toEntity();
-      expect(entity.timestamp, politicalCartoon.timestamp);
-    });
+
 
     test(
-        'conversion '
-        'from political cartoon model to entity and entity to model works', () {
-      var cartoon = PoliticalCartoon.fromEntity(politicalCartoon.toEntity());
+      'conversion from political cartoon model to entity '
+      'and entity to model works', () {
+      final cartoon = PoliticalCartoon.fromEntity(politicalCartoon.toEntity());
       expect(cartoon, politicalCartoon);
     });
 
@@ -55,10 +50,10 @@ void main() {
         'published': published,
         'type': type.imageType
       };
-      expect(PoliticalCartoonEntity.fromJson(data),
-          equals(politicalCartoon.toEntity()));
+      expect(
+        PoliticalCartoonEntity.fromJson(data),
+        equals(politicalCartoon.toEntity())
+      );
     });
-
-    test('fromSnapshot works as intended', () async {});
   });
 }

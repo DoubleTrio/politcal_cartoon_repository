@@ -4,15 +4,16 @@ import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 import 'package:political_cartoon_repository/src/firestore/utils/utils.dart';
 
 class PoliticalCartoonEntity extends Equatable {
-  PoliticalCartoonEntity(
-      {required this.id,
-      required this.author,
-      required this.timestamp,
-      required this.description,
-      required this.tags,
-      required this.downloadUrl,
-      required this.published,
-      required this.type});
+  PoliticalCartoonEntity({
+    required this.id,
+    required this.author,
+    required this.timestamp,
+    required this.description,
+    required this.tags,
+    required this.downloadUrl,
+    required this.published,
+    required this.type
+  });
 
   final String id;
   final Timestamp timestamp;
@@ -30,27 +31,28 @@ class PoliticalCartoonEntity extends Equatable {
   @override
   String toString() {
     return 'PoliticalCartoonEntity { '
-        'id: $id, '
-        'timestamp: $timestamp, '
-        'author: $author, '
-        'description: $description, '
-        'tags: $tags, '
-        'downLoadUrl: $downloadUrl, '
-        'published: $published '
-        'type: $type'
-        '}';
+      'id: $id, '
+      'timestamp: $timestamp, '
+      'author: $author, '
+      'description: $description, '
+      'tags: $tags, '
+      'downLoadUrl: $downloadUrl, '
+      'published: $published '
+      'type: $type'
+    '}';
   }
 
   static PoliticalCartoonEntity fromJson(Map<String, Object> json) {
     return PoliticalCartoonEntity(
-        id: json['id'] as String,
-        timestamp: json['timestamp'] as Timestamp,
-        author: json['author'] as String,
-        description: json['description'] as String,
-        tags: mapTagIdToTags(json['tags'] as List<int>),
-        downloadUrl: json['downloadUrl'] as String,
-        published: json['published'] as Timestamp,
-        type: ImageTypeExtension.fromString(json['type'] as String));
+      id: json['id'] as String,
+      timestamp: json['timestamp'] as Timestamp,
+      author: json['author'] as String,
+      description: json['description'] as String,
+      tags: mapTagIdToTags(json['tags'] as List<int>),
+      downloadUrl: json['downloadUrl'] as String,
+      published: json['published'] as Timestamp,
+      type: ImageTypeExtension.fromString(json['type'] as String)
+    );
   }
 
   static PoliticalCartoonEntity fromSnapshot(DocumentSnapshot snap) {
