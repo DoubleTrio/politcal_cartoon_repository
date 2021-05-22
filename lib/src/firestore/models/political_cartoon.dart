@@ -6,6 +6,8 @@ import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 
 import 'models.dart';
 
+typedef PoliticalCartoonList = List<PoliticalCartoon>;
+
 class PoliticalCartoon extends Equatable {
   PoliticalCartoon({
     String? id,
