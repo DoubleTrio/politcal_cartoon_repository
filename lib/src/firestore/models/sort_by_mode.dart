@@ -23,8 +23,8 @@ class OrderBy extends Equatable {
 
 extension SortByExtension on SortByMode {
   static const headers = {
-    SortByMode.latestPosted: 'Latest Image',
-    SortByMode.earliestPosted: 'Earliest Image',
+    SortByMode.latestPosted: 'Latest Posted Image',
+    SortByMode.earliestPosted: 'Earliest Posted Image',
     SortByMode.latestPublished: 'Latest Published Image',
     SortByMode.earliestPublished: 'Earliest Published Image',
   };

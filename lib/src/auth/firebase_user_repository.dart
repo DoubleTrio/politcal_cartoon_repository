@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'user_repository.dart';
 
 class FirebaseUserRepository implements UserRepository {
@@ -19,8 +20,8 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<String> getUserId() async {
-    return _firebaseAuth.currentUser!.uid;
+  Future<User?> getUser() async {
+    return _firebaseAuth.currentUser;
   }
 
   @override
@@ -29,7 +30,15 @@ class FirebaseUserRepository implements UserRepository {
   }
 
   @override
-  Future<UserCredential> signInWithGoogle() async {
-    throw UnimplementedError();
+  Future<void> signInWithGoogle() async {
+    final googleSignIn = GoogleSignIn();
+    final googleUser = await googleSignIn.signIn();
+    final googleAuth = await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    await _firebaseAuth.signInWithCredential(credential);
+    return;
   }
 }
