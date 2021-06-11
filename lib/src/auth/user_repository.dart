@@ -6,4 +6,5 @@ abstract class UserRepository {
   Future<User?> getUser();
   Future<void> logout();
   Future<void> signInWithGoogle();
+  Future<int> getCustomClaimLevel(User user);
 }

@@ -41,4 +41,18 @@ class FirebaseUserRepository implements UserRepository {
     await _firebaseAuth.signInWithCredential(credential);
     return;
   }
+
+  @override
+  Future<int> getCustomClaimLevel(User user) async {
+    final results = await user.getIdTokenResult();
+    final claims = results.claims;
+    if (claims?['admin'] as bool) {
+      return 4;
+    } else if (claims?['moderator'] as bool) {
+      return 3;
+    } else if (claims?['writer'] as bool) {
+      return 2;
+    }
+    return 1;
+  }
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'models/models.dart';
 
 abstract class PoliticalCartoonRepository {
@@ -18,6 +20,10 @@ abstract class PoliticalCartoonRepository {
     required ImageType imageType,
     required Tag tag
   });
+
+  Future<void> likeCartoon(String id);
+
+  Future<void> unlikeCartoon(String id);
 
   Future<void> updatePoliticalCartoon(PoliticalCartoon cartoon);
 

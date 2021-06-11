@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:political_cartoon_repository/src/firestore/models/models.dart';
 
 import 'entities/entities.dart';
@@ -105,6 +106,21 @@ class FirestorePoliticalCartoonRepository
     );
   }
 
+  @override
+  Future<void> likeCartoon(String id) {
+    return _collectionReference.firestore
+      .doc(id)
+      .update(<String, int>{ 'likes': 0 });
+  }
+
+  @override
+  Future<void> unlikeCartoon(String id) {
+    return _collectionReference.firestore
+      .doc(id)
+      .update(<String, int>{ 'likes': 0 });
+  }
+  
+  
   @override
   Future<PoliticalCartoon> getPoliticalCartoonById(String id) {
     return _collectionReference.doc(id).get().then((value) =>
